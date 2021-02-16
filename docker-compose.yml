@@ -1,0 +1,21 @@
+db:
+  image: mysql:5.7
+  environment:
+    MYSQL_ROOT_PASSWORD: pass
+    MYSQL_DATABASE: locamail
+  expose:
+    - "3306"
+web:
+  build: .
+  stdin_open:  true
+  tty:         true
+  command: "tail -f Gemfile"
+  links:
+    - db
+  # Faz a conexão entre pasta do sistema e container
+  volumes:
+    - ./:/ecommerce
+  environment:
+    RAILS_ENV: development
+  ports:
+    - "3000:3000"
